@@ -112,15 +112,17 @@ public class FixedSizeLetterSequence implements LetterSequence {
 	 * @return the sequence case number
 	 */
 	private long caseNumberOf(char[] array) {
-		long num = 1;
+		long num = 0;
+		int diff = 0;
+		int n = array.length - 1;
 		for (int i = 0; i < array.length; i++) {
-			if (i == 0 && Character.isLowerCase(array[i]) && array[i] == z) {
-				num *= (z - array[i] + 0x01);
-			} else if (i == 0 && Character.isUpperCase(array[i]) && array[i] == Z) {
-				num *= (Z - array[i] + 0x01);
-			} else {
-				num *= 26;
-			}
+			if (Character.isLowerCase(array[i])) {
+				diff = (z - array[i] + 0x01);
+			} else if (Character.isUpperCase(array[i])) {
+				diff = (Z - array[i] + 0x01);
+			} 
+			int s = (n - i) == 0 ? 0 : 1;
+			num +=(diff - s) * Math.pow(26,(n - i));
 		}
 		return array.length <= 0 ? 0 : num;
 	}
